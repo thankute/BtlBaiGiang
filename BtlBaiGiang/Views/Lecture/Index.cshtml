@@ -1,0 +1,255 @@
+﻿@model List<BtlBaiGiang.Models.Lecture>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    /* Ghi đè max-width mặc định của Bootstrap cho tất cả các input */
+    input.form-control {
+        max-width: none;
+    }
+    select.form-control {
+        max-width: none;
+    }
+
+    textarea.form-control {
+        max-width: none;
+    }
+</style>
+<h2>Danh sách Bài giảng</h2>
+
+<div class="d-flex justify-content-end my-2">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+        Thêm bài giảng
+    </button>
+</div>
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Tên bài giảng</th>
+        <th>Tiêu đề</th>
+        <th>Nội dung</th>
+        <th>Khoá học</th>
+        <th>Thời gian tạo</th>
+        <th>Thời gian cập nhật</th>
+        <th>Thao Tác</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.LectureID</td>
+            <td>@item.LectureName</td>
+            <td>@item.Title</td>
+            <td>@item.Content</td>
+            <td>@item.Cours.CourseName</td>
+            <td>@item.CreatedAt</td>
+            <td>@item.UpdatedAt</td>
+            <td class="action-buttons" style="min-width: 200px">
+                <button class="btn btn-secondary" data-bs-toggle="modal"
+                        data-bs-target="#editModal" onclick="loadCourseData(@item.LectureID)">
+                    Sửa
+                </button>
+                <button class="btn btn-danger" onclick="confirmDelete('@item.LectureID', '@item.LectureName')">Xóa</button>
+            </td>
+        </tr>
+    }
+</table>
+
+<div class="modal fade" id="addModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCourseModalLabel">Thêm bài giảng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addCourseForm">
+                <div class="modal-body">
+                    <div class="col-12">
+                        <label for="courseName">Khóa học</label>
+                        <select type="text" class="form-control max-w" id="CourseID" name="CourseID" required>
+                            @foreach(var course in ViewBag.Courses)
+                            {
+                                <option value="@course.CourseID">@course.CourseName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="Name">Tên bài giảng</label>
+                        <input type="text" class="form-control max-w" id="LectureName" name="LectureName" required>
+                    </div>
+                    <div class="col-12">
+                        <label for="courseName">Tiêu đề</label>
+                        <input type="text" class="form-control max-w" id="Title" name="Title" required>
+                    </div>
+                    <div class="form-group col-12">
+                        <label for="courseDescription">Nội dung</label>
+                        <textarea class="form-control" id="Content" name="Content" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="submitCourse()">Lưu</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editCourseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCourseModalLabel">Chỉnh sửa bài giảng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editCourseForm">
+                <div class="modal-body">
+                    <input type="hidden" id="editLectureId" name="id" />
+
+                    <div class="col-12">
+                        <label for="courseName">Khóa học</label>
+                        <select type="text" class="form-control max-w" id="editCourseID" name="editCourseID" required>
+                            @foreach (var course in ViewBag.Courses)
+                            {
+                                <option value="@course.CourseID">@course.CourseName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="Name">Tên bài giảng</label>
+                        <input type="text" class="form-control max-w" id="editLectureName" name="editLectureName" required>
+                    </div>
+                    <div class="col-12">
+                        <label for="courseName">Tiêu đề</label>
+                        <input type="text" class="form-control max-w" id="editTitle" name="editTitle" required>
+                    </div>
+                    <div class="form-group col-12">
+                        <label for="courseDescription">Nội dung</label>
+                        <textarea class="form-control" id="editContent" name="editContent" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editCourseCreatedAt">Thời gian tạo</label>
+                        <input class="form-control" id="editCreatedAt" name="CreatedAt" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="editCourseUpdatedAt">Thời gian cập nhật</label>
+                        <input class="form-control" id="editUpdatedAt" name="UpdatedAt" disabled>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="submitEditCourse()">Lưu thay đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function submitCourse() {
+        const courseID = document.getElementById('CourseID').value;
+        const LectureName = document.getElementById('LectureName').value;
+        const Title = document.getElementById('Title').value;
+        const Content = document.getElementById('Content').value;
+
+        $.ajax({
+            url: '@Url.Action("Create", "Lecture")',
+            type: 'POST',
+            data: {
+                courseId: courseID,
+                lectureName: LectureName,
+                title: Title,
+                content: Content
+            },
+            success: function(response) {
+                if (response.success) {
+                    window.location.href = '@Url.Action("Index", "Lecture")';
+                    alert('Bài giảng đã được thêm thành công!');
+                    $('#addModal').modal('hide');
+                    // Code để cập nhật danh sách khóa học sau khi thêm thành công
+                } else {
+                    alert('Có lỗi xảy ra khi thêm khóa học.');
+                }
+            },
+            error: function() {
+                alert('Có lỗi xảy ra khi kết nối với server.');
+            }
+        });
+    }
+    function loadCourseData(id) {
+    $.ajax({
+        url: '@Url.Action("GetLectureById", "Lecture")',
+        type: 'GET',
+        data: { id: id },
+        success: function (lecture) {
+            console.log('lecture', lecture);
+            // Đổ dữ liệu vào các trường trong modal
+            $('#editLectureId').val(lecture.LectureID);
+            $('#editCourseID').val(lecture.CourseID);
+            $('#editLectureName').val(lecture.LectureName);
+            $('#editTitle').val(lecture.Title);
+            $('#editContent').val(lecture.Content);
+            $('#editCreatedAt').val(lecture.CreatedAt.toString());
+            $('#editUpdatedAt').val(lecture.UpdatedAt.toString());
+        },
+        error: function() {
+            alert('Có lỗi xảy ra khi tải dữ liệu bài giảng.');
+        }
+    });
+    }
+    function submitEditCourse() {
+        const lectureId = $('#editLectureId').val();
+        const courseId = $('#editCourseID').val();
+        const lectureName = $('#editLectureName').val();
+        const lectureTitle = $('#editTitle').val();
+        const lectureContent = $('#editContent').val();
+
+        $.ajax({
+            url: '@Url.Action("Edit", "Lecture")',
+            type: 'POST',
+            data: {
+                id: lectureId,
+                lectureName: lectureName,
+                title: lectureTitle,
+                content: lectureContent,
+                courseId: courseId
+            },
+            success: function(response) {
+                if (response.success) {
+                     window.location.href = '@Url.Action("Index", "Lecture")';
+                    alert('Bài giảng đã được cập nhật thành công!');
+                    $('#editModal').modal('hide');
+                    // Cập nhật danh sách khóa học (hoặc tải lại trang)
+                } else {
+                    alert('Có lỗi xảy ra khi cập nhật bài giảng.');
+                }
+            },
+            error: function() {
+                alert('Có lỗi xảy ra khi kết nối với server.');
+            }
+        }
+        );
+    }
+
+    function confirmDelete(id, courseName) {
+        if (confirm(` Bạn có muốn xóa ${courseName} không?`)) {
+                $.ajax({
+                    url: '@Url.Action("Delete", "Lecture")',
+                    type: 'POST',
+                    data: { id: id},
+                    success: function(result) {
+                        // Chuyển hướng đến hành động Index sau khi xóa thành công
+                        alert(`Bài giảng ${courseName} đã được xóa thành công! `);
+                            window.location.href = '@Url.Action("Index", "Lecture")';
+                    },
+                    error: function() {
+                        alert('Xóa không thành công vui lòng thử lại!');
+                    }
+                });
+            }
+        }
+
+</script>

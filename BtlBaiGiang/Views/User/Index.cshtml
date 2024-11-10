@@ -1,0 +1,289 @@
+﻿@model List<BtlBaiGiang.Models.User>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    /* Ghi đè max-width mặc định của Bootstrap cho tất cả các input */
+    input.form-control {
+        max-width: none;
+    }
+
+    select.form-control {
+        max-width: none;
+    }
+
+    textarea.form-control {
+        max-width: none;
+    }
+</style>
+<h2>Danh sách Người dùng</h2>
+
+<div class="d-flex justify-content-end my-2">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+        Thêm người dùng
+    </button>
+</div>
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Giới tính</th>
+        <th>Trạng thái</th>
+        <th>Vai trò</th>
+        <th>Thời gian tạo</th>
+        <th>Thao Tác</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.UserID</td>
+            <td>@item.Username</td>
+            <td>@item.Email</td>
+            <td>@item.Gender</td>
+            <td>@item.Status</td>
+            <td>@item.Role</td>
+            <td>@item.CreatedAt</td>
+            <td class="action-buttons" style="min-width: 200px">
+                <button class="btn btn-secondary" data-bs-toggle="modal"
+                        data-bs-target="#editModal" onclick="loadCourseData(@item.UserID)">
+                    Sửa
+                </button>
+                <button class="btn btn-danger" onclick="confirmDelete('@item.UserID', '@item.Username')">Xóa</button>
+            </td>
+        </tr>
+    }
+</table>
+
+<div class="modal fade" id="addModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCourseModalLabel">Thêm người dùng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addCourseForm">
+                <div class="modal-body">
+                    <div class="col-12">
+                        <label for="Username">Username</label>
+                        <input type="text" class="form-control max-w" id="Username" name="Username" required>
+                    </div>
+                    <div class="col-12">
+                        <label for="Password">Mật khẩu</label>
+                        <input type="password" class="form-control max-w" id="Password" name="Password" required>
+                    </div>
+                    <div class="col-12">
+                        <label for="Email">Email</label>
+                        <input type="text" class="form-control max-w" id="Email" name="Email" required>
+                    </div>
+                    <div class="form-group col-12">
+                        <label for="Gender">Giới tính</label>
+                        <select type="text" class="form-control max-w" id="Gender" name="Gender" required>
+                            <option value="Male">Male</option>
+                            <option value="Demale">Female</option>
+                            <option value="Other">Khác</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-12">
+                        <label for="Status">Trạng thái</label>
+                        <select type="text" class="form-control max-w" id="Status" name="Status" required>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                            <option value="Suspended">Suspended</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-12">
+                        <label for="Role">Vai trò</label>
+                        <select type="text" class="form-control max-w" id="Role" name="Role" required>
+                            <option value="Student">Student</option>
+                            <option value="Teacher">Teacher</option>
+                            <option value="Admin">Admin</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="submitCourse()">Lưu</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editCourseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCourseModalLabel">Chỉnh sửa bài giảng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editCourseForm">
+                <div class="modal-body">
+                    <input type="hidden" id="editUserID" name="id" />
+
+                    <div class="col-12">
+                        <label for="Username">Username</label>
+                        <input type="text" class="form-control max-w" id="editUsername" name="editUsername" required>
+                    </div>
+                    <div class="col-12">
+                        <label for="editPassword">Mật khẩu</label>
+                        <input type="password" class="form-control max-w" id="editPassword" name="editPassword">
+                    </div>
+                    <div class="col-12">
+                        <label for="Email">Email</label>
+                        <input type="text" class="form-control max-w" id="editEmail" name="editEmail" required>
+                    </div>
+                    <div class="form-group col-12">
+                        <label for="Gender">Giới tính</label>
+                        <select type="text" class="form-control max-w" id="editGender" name="editGender" required>
+                            <option value="Male">Male</option>
+                            <option value="Demale">Female</option>
+                            <option value="Other">Khác</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-12">
+                        <label for="Status">Trạng thái</label>
+                        <select type="text" class="form-control max-w" id="editStatus" name="editStatus" required>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                            <option value="Suspended">Suspended</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-12">
+                        <label for="Role">Vai trò</label>
+                        <select type="text" class="form-control max-w" id="editRole" name="editRole" required>
+                            <option value="Student">Student</option>
+                            <option value="Teacher">Teacher</option>
+                            <option value="Admin">Admin</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="submitEditCourse()">Lưu thay đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function submitCourse() {
+        const Username = document.getElementById('Username').value;
+        const Password = document.getElementById('Password').value;
+        const Email = document.getElementById('Email').value;
+        const Gender = document.getElementById('Gender').value;
+        const Status = document.getElementById('Status').value;
+        const Role = document.getElementById('Role').value;
+
+
+        $.ajax({
+            url: '@Url.Action("Create", "User")',
+            type: 'POST',
+            data: {
+                Username: Username,
+                PasswordHash: Password,
+                Email: Email,
+                Gender: Gender,
+                Status: Status,
+                Role: Role
+            },
+            success: function(response) {
+                if (response.success) {
+                    window.location.href = '@Url.Action("Index", "User")';
+                    alert('Người dùng đã được thêm thành công!');
+                    $('#addModal').modal('hide');
+                    // Code để cập nhật danh sách khóa học sau khi thêm thành công
+                } else {
+                    alert('Có lỗi xảy ra khi thêm người dùng.');
+                }
+            },
+            error: function() {
+                alert('Có lỗi xảy ra khi kết nối với server.');
+            }
+        });
+    }
+    function loadCourseData(id) {
+    $.ajax({
+        url: '@Url.Action("GetUserById", "User")',
+        type: 'GET',
+        data: { id: id },
+        success: function (user) {
+            // Đổ dữ liệu vào các trường trong modal
+            $('#editUserID').val(user.UserID);
+            $('#editPassword').val(user.PasswordHash);
+            $('#editUsername').val(user.Username);
+            $('#editEmail').val(user.Email);
+            $('#editGender').val(user.Gender);
+            $('#editStatus').val(user.Status);
+            $('#editRole').val(user.Role);
+        },
+        error: function() {
+            alert('Có lỗi xảy ra khi tải dữ liệu người dùng.');
+        }
+    });
+    }
+    function submitEditCourse() {
+        const UserID = $('#editUserID').val();
+        const PasswordHash = $('#editPassword').val();
+        const Username = $('#editUsername').val();
+        const Email = $('#editEmail').val();
+        const Gender = $('#editGender').val();
+        const Status = $('#editStatus').val();
+        const Role = $('#editRole').val();
+
+        $.ajax({
+            url: '@Url.Action("Edit", "User")',
+            type: 'POST',
+            data: {
+                UserID: UserID,
+                PasswordHash: PasswordHash,
+                Username: Username,
+                Email: Email,
+                Gender: Gender,
+                Status: Status,
+                Role: Role
+            },
+            success: function(response) {
+                if (response.success) {
+                     window.location.href = '@Url.Action("Index", "User")';
+                    alert('Người dùng đã được cập nhật thành công!');
+                    $('#editModal').modal('hide');
+                    // Cập nhật danh sách khóa học (hoặc tải lại trang)
+                } else {
+                    alert('Có lỗi xảy ra khi cập nhật người dùng.');
+                }
+            },
+            error: function() {
+                alert('Có lỗi xảy ra khi kết nối với server.');
+            }
+        }
+        );
+    }
+
+    function confirmDelete(id, courseName) {
+        if (confirm(` Bạn có muốn xóa ${courseName} không?`)) {
+                $.ajax({
+                    url: '@Url.Action("Delete", "User")',
+                    type: 'POST',
+                    data: { id: id},
+                    success: function(result) {
+                        // Chuyển hướng đến hành động Index sau khi xóa thành công
+                        alert(`Người dùng ${courseName} đã được xóa thành công! `);
+                            window.location.href = '@Url.Action("Index", "User")';
+                    },
+                    error: function() {
+                        alert('Xóa không thành công vui lòng thử lại!');
+                    }
+                });
+            }
+        }
+
+</script>
+
