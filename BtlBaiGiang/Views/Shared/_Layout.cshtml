@@ -1,39 +1,254 @@
 ﻿<!DOCTYPE html>
+
 <html>
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>E_Learning | Education</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="manifest" href="~/site.webmanifest">
+    <link rel="shortcut icon" type="image/x-icon" href="~/Assets/img/favicon.ico">
+
+    <!-- CSS here -->
+
+    <link rel="stylesheet" href="~/Assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/Assets/css/slicknav.css">
+    <link rel="stylesheet" href="~/Assets/css/flaticon.css">
+    <link rel="stylesheet" href="~/Assets/css/progressbar_barfiller.css">
+    <link rel="stylesheet" href="~/Assets/css/gijgo.css">
+    <link rel="stylesheet" href="~/Assets/css/animate.min.css">
+    <link rel="stylesheet" href="~/Assets/css/animated-headline.css">
+    <link rel="stylesheet" href="~/Assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="~/Assets/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="~/Assets/css/themify-icons.css">
+    <link rel="stylesheet" href="~/Assets/css/slick.css">
+    <link rel="stylesheet" href="~/Assets/css/nice-select.css">
+    <link rel="stylesheet" href="~/Assets/css/style.css">
+    <!--End Css-->
+
 </head>
+
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-        <div class="container">
-            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                </ul>
+    <div>
+        <!-- ? Preloader Start -->
+        <div id="preloader-active">
+            <div class="preloader d-flex align-items-center justify-content-center">
+                <div class="preloader-inner position-relative">
+                    <div class="preloader-circle"></div>
+                    <div class="preloader-img pere-text">
+                        <img src="~/Assets/img/logo/loder.png" alt="">
+                    </div>
+                </div>
             </div>
         </div>
-    </nav>
-    <div class="container body-content">
+        <!-- Preloader Start -->
+        <header>
+            <!-- Header Start -->
+            <div class="header-area header-transparent">
+                <div class="main-header ">
+                    <div class="header-bottom  header-sticky">
+                        <div class="container-fluid">
+                            <div class="row align-items-center">
+                                <!-- Logo -->
+                                <div class="col-xl-2 col-lg-2">
+                                    <div class="logo">
+                                        <a href="index.html">
+                                            <img src="/Assets/img/logo/logo.png"
+                                                 alt="">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-xl-10 col-lg-10">
+                                    <div class="menu-wrapper d-flex align-items-center justify-content-end">
+                                        <!-- Main-menu -->
+                                        <div class="main-menu d-none d-lg-block">
+                                            <nav>
+                                                <ul id="navigation">
+                                                    <li class="active"><a href="~/Home/Index">Trang chủ</a></li>
+                                                    <li><a href="/BaiGiang/Index">Bài Giảng</a></li>
+                                                    <li><a href="/ChinhSachcs/ChinhSach">Giới thiệu về E_Learning</a></li>
+                                                    @*<li>
+                                                        <a href="/Users/Index">Thông tin tài khoản</a>
+                                                    </li>*@
+                                                    <li><a href="contact.html">Liên hệ</a></li>
+                                                    <!-- Button -->
+                                                    @*<li class="button-header">
+                                                        @{
+                                                            //var userEmail = Session("UserEmail");
+
+                                                            if (!string.IsNullOrEmpty(userEmail))
+                                                            {
+                                                                <p class="welcome-message">
+                                                                    | Welcome, @userEmail! |
+                                                                    <form method="post" action="/Login/Logout" style="display:inline;">
+                                                                        <button type="submit" class="btn btn3">Đăng xuất</button>
+                                                                    </form>
+                                                                </p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <a class="btn btn3" href="/Login">Đăng xuất</a>
+                                                            }
+                                                        }
+                                                    </li>*@
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Header End -->
+        </header>
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+    <footer>
+        <div class="footer-wrappper footer-bg">
+            <!-- Footer Start-->
+            <div class="footer-area footer-padding">
+                <div class="container">
+                    <div class="row justify-content-between">
+                        <div class="col-xl-4 col-lg-5 col-md-4 col-sm-6">
+                            <div class="single-footer-caption mb-50">
+                                <div class="single-footer-caption mb-30">
+                                    <!-- logo -->
+                                    <div class="footer-logo mb-25">
+                                        <a href="index.html"><img src="/Assets/img/logo/logo2_footer.png" alt=""></a>
+                                    </div>
+                                    <div class="footer-tittle">
+                                        <div class="footer-pera">
+                                            <p>
+                                                Các bài giảng cung cấp dựa trên nhu cầu học hỏi và tìm hiểu của người dùng.
+                                                Chúng tôi luôn mang đến cho bạn những bài giảng bổ ích nhất.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <!-- social -->
+                                    <div class="footer-social">
+                                        <a href="#"><i class="fab fa-twitter"></i></a>
+                                        <a href="https://bit.ly/sai4ull"><i class="fab fa-facebook-f"></i></a>
+                                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5">
+                            <div class="single-footer-caption mb-50">
+                                <div class="footer-tittle">
+                                    <h4>Về E_Learning</h4>
+                                    <ul>
+                                        <li><a href="#">Giới thiệu</a></li>
+                                        <li><a href="#">Liên Hệ</a></li>
+                                        <li><a href="#">Điều khoản</a></li>
+                                        <li><a href="#">Bảo mật</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6">
+                            <div class="single-footer-caption mb-50">
+                                <div class="footer-tittle">
+                                    <h4>Sản phẩm</h4>
+                                    <ul>
+                                        <li><a href="#">Sách E_Learning C/C++</a></li>
+                                        <li><a href="#">Sách E_Learning FullStack</a></li>
+                                        <li><a href="#">Sách E_Learning GameDeveloper</a></li>
+                                        <li><a href="#">Sách Lộ trình học E_Learning</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                            <div class="single-footer-caption mb-50">
+                                <div class="footer-tittle">
+                                    <h4>Tuyển dụng</h4>
+                                    <ul>
+                                        <li><a href="#">Giảng viên & trợ giảng</a></li>
+                                        <li><a href="#">Nhân viên bảo trì hệ thống</a></li>
+                                        <li><a href="#">Chuyên viên tư vấn</a></li>
+                                        <li><a href="#">Quản lý hệ thống</a></li>
+                                        <li><a href="#">Khác</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- footer-bottom area -->
+        </div>
+    </footer>
+    </div>
+    <!-- Scroll Up -->
+    <div id="back-top">
+        <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    <!-- JS here -->
+
+    <script src="~/courses-master//courses-master/assets/js/vendor/modernizr-3.5.0.min.js"></script>
+    <!-- Jquery, Popper, Bootstrap -->
+
+    <script src="~/Assets/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="~/Assets/js/popper.min.js"></script>
+    <script src="~/Assets/js/bootstrap.min.js"></script>
+
+    <!-- Jquery Mobile Menu -->
+
+    <script src="~/Assets/js/jquery.slicknav.min.js"></script>
+
+    <!-- Jquery Slick , Owl-Carousel Plugins -->
+
+    <script src="~/Assets/js/owl.carousel.min.js"></script>
+    <script src="~/Assets/js/slick.min.js"></script>
+
+    <!-- One Page, Animated-HeadLin -->
+
+    <script src="~/Assets/js/wow.min.js"></script>
+    <script src="~/Assets/js/animated.headline.js"></script>
+    <script src="~/Assets/js/jquery.magnific-popup.js"></script>
+
+    <!-- Date Picker -->
+
+    <script src="~/Assets/js/gijgo.min.js"></script>
+
+    <!-- Nice-select, sticky -->
+
+    <script src="~/Assets/js/jquery.nice-select.min.js"></script>
+    <script src="~/Assets/js/jquery.sticky.js"></script>
+
+    <!-- Progress -->
+
+    <script src="~/Assets/js/jquery.barfiller.js"></script>
+
+
+    <!-- counter , waypoint,Hover Direction -->
+
+    <script src="~/Assets/js/jquery.counterup.min.js"></script>
+    <script src="~/Assets/js/waypoints.min.js"></script>
+    <script src="~/Assets/js/jquery.countdown.min.js"></script>
+    <script src="~/Assets/js/hover-direction-snake.min.js"></script>
+
+    <!-- contact js -->
+
+    <script src="~/Assets/js/contact.js"></script>
+    <script src="~/Assets/js/jquery.form.js"></script>
+    <script src="~/Assets/js/jquery.validate.min.js"></script>
+    <script src="~/Assets/js/mail-script.js"></script>
+    <script src="~/Assets/js/jquery.ajaxchimp.min.js"></script>
+
+    <!-- Jquery Plugins, main Jquery -->
+
+    <script src="~/Assets/js/plugins.js"></script>
+    <script src="~/Assets/js/main.js"></script>
+
+
 </body>
+
 </html>
